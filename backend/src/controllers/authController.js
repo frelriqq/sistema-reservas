@@ -5,6 +5,15 @@ const jwt = require('jsonwebtoken');
 const registrar = async (req, res) => {
   try {
     const { nombre, correo, password } = req.body;
+
+    // Validaciones
+    if (!nombre || !correo || !password) {
+      return res.status(400).json({ mensaje: 'Todos los campos son obligatorios' });
+    }
+    if (password.length < 6) {
+      return res.status(400).json({ mensaje: 'La contraseña debe tener al menos 6 caracteres' });
+    }
+
     const existe = await Usuario.findOne({ correo });
     if (existe) return res.status(400).json({ mensaje: 'El correo ya está registrado' });
     const salt = await bcrypt.genSalt(10);
