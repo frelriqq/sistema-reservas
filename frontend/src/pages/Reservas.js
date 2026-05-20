@@ -103,7 +103,7 @@ const Reservas = () => {
             reservas.map((r) => (
               <div key={r._id} style={styles.reservaCard}>
                 <div style={styles.reservaInfo}>
-                  <p><strong>📅 Fecha:</strong> {new Date(r.fecha).toLocaleDateString()}</p>
+                  <p><strong>📅 Fecha:</strong> {new Date(r.fecha).toLocaleDateString('es-CO', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
                   <p><strong>🕐 Hora:</strong> {r.hora}</p>
                   <p><strong>👥 Personas:</strong> {r.personas}</p>
                   {r.nota && <p><strong>📝 Nota:</strong> {r.nota}</p>}
