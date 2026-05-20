@@ -3,6 +3,18 @@ const Reserva = require('../models/Reserva');
 const crearReserva = async (req, res) => {
   try {
     const { fecha, hora, personas, nota } = req.body;
+
+    if (!fecha || !hora || !personas) {
+      return res.status(400).json({ mensaje: 'Fecha, hora y número de personas son obligatorios' });
+    }
+
+    const fechaReserva = new Date(fecha);
+    const hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+    if (fechaReserva < hoy) {
+      return res.status(400).json({ mensaje: 'No puedes hacer reservas en fechas pasadas' });
+    }
+
     const reserva = new Reserva({ usuario: req.usuario.id, fecha, hora, personas, nota });
     await reserva.save();
     res.status(201).json({ mensaje: 'Reserva creada correctamente', reserva });
