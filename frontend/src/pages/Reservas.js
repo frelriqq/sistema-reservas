@@ -79,7 +79,15 @@ const Reservas = () => {
           {error && <p style={styles.error}>{error}</p>}
           {exito && <p style={styles.exito}>{exito}</p>}
           <form onSubmit={handleSubmit}>
-            <input style={styles.input} type="date" name="fecha" value={form.fecha} onChange={handleChange} required />
+            <input 
+  style={styles.input} 
+  type="date" 
+  name="fecha" 
+  value={form.fecha} 
+  onChange={handleChange} 
+  min={new Date().toISOString().split('T')[0]}
+  required 
+/> 
             <input style={styles.input} type="time" name="hora" value={form.hora} onChange={handleChange} required />
             <input style={styles.input} type="number" name="personas" min="1" max="10" value={form.personas} onChange={handleChange} required placeholder="Número de personas" />
             <textarea style={styles.input} name="nota" value={form.nota} onChange={handleChange} placeholder="Nota opcional (alergias, ocasión especial...)" rows="3" />
