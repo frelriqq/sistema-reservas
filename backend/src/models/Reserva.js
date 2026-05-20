@@ -20,6 +20,10 @@ const reservaSchema = new mongoose.Schema({
     min: 1,
     max: 10
   },
+  mesa: {
+  type: Number,
+  default: null
+},
   estado: {
     type: String,
     enum: ['pendiente', 'confirmada', 'cancelada'],
