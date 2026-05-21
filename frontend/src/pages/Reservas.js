@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { crearReserva, misReservas, cancelarReserva } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { crearReserva, misReservas, cancelarReserva, verificarDisponibilidad } from '../services/api';
 
 const Reservas = () => {
   const [form, setForm] = useState({ fecha: '', hora: '', personas: 1, nota: '' });
@@ -9,7 +10,9 @@ const Reservas = () => {
   const [error, setError] = useState('');
   const [exito, setExito] = useState('');
   const { usuario, cerrarSesion } = useAuth();
+  const [disponibilidad, setDisponibilidad] = useState(null);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     cargarReservas();
@@ -27,6 +30,20 @@ const Reservas = () => {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const handleFechaHora = async (e) => {
+  handleChange(e);
+  const nuevaFecha = e.target.name === 'fecha' ? e.target.value : form.fecha;
+  const nuevaHora = e.target.name === 'hora' ? e.target.value : form.hora;
+  if (nuevaFecha && nuevaHora) {
+    try {
+      const { data } = await verificarDisponibilidad(nuevaFecha, nuevaHora);
+      setDisponibilidad(data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,7 +105,19 @@ const Reservas = () => {
   min={new Date().toISOString().split('T')[0]}
   required 
 /> 
-            <input style={styles.input} type="time" name="hora" value={form.hora} onChange={handleChange} required />
+            <input style={styles.input} type="time" name="hora" value={form.hora} onChange={handleFechaHora} required />
+
+{disponibilidad && (
+  <p style={{ 
+    color: disponibilidad.disponible ? 'green' : 'red', 
+    marginBottom: '1rem',
+    fontWeight: 'bold'
+  }}>
+    {disponibilidad.disponible 
+      ? `✅ ${disponibilidad.mesasDisponibles} mesa(s) disponibles` 
+      : '❌ No hay mesas disponibles para ese horario'}
+  </p>
+)}
             <input style={styles.input} type="number" name="personas" min="1" max="10" value={form.personas} onChange={handleChange} required placeholder="Número de personas" />
             <textarea style={styles.input} name="nota" value={form.nota} onChange={handleChange} placeholder="Nota opcional (alergias, ocasión especial...)" rows="3" />
             <button style={styles.btn} type="submit">Reservar mesa</button>
