@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { crearReserva, misReservas, cancelarReserva } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { crearReserva, misReservas, cancelarReserva, verificarDisponibilidad } from '../services/api';
