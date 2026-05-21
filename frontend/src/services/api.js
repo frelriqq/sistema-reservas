@@ -17,3 +17,4 @@ export const misReservas = () => API.get('/reservas/mis-reservas');
 export const cancelarReserva = (id) => API.put(`/reservas/cancelar/${id}`);
 export const todasLasReservas = () => API.get('/reservas/todas');
 export const cambiarEstado = (id, estado) => API.put(`/reservas/estado/${id}`, { estado }); 
+export const verificarDisponibilidad = (fecha, hora) => API.get(`/reservas/disponibilidad?fecha=${fecha}&hora=${hora}`);
