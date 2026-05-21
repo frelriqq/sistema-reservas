@@ -65,4 +65,31 @@ const cambiarEstado = async (req, res) => {
   }
 };
 
-module.exports = { crearReserva, misReservas, cancelarReserva, todasLasReservas, cambiarEstado };
+const verificarDisponibilidad = async (req, res) => {
+  try {
+    const { fecha, hora } = req.query;
+
+    if (!fecha || !hora) {
+      return res.status(400).json({ mensaje: 'Fecha y hora son requeridas' });
+    }
+
+    const reservasExistentes = await Reserva.countDocuments({
+      fecha: new Date(fecha),
+      hora: hora,
+      estado: { $ne: 'cancelada' }
+    });
+
+    const mesasTotal = 5;
+    const mesasDisponibles = mesasTotal - reservasExistentes;
+
+    res.json({
+      disponible: mesasDisponibles > 0,
+      mesasDisponibles,
+      mesasTotal
+    });
+  } catch (err) {
+    res.status(500).json({ mensaje: 'Error en el servidor', error: err.message });
+  }
+};
+
+module.exports = { crearReserva, misReservas, cancelarReserva, todasLasReservas, cambiarEstado, verificarDisponibilidad };
