@@ -113,20 +113,21 @@ const handleEliminar = async (id) => {
                   {r.estado}
                 </span>
               </div>
-              <div style={styles.acciones}>
-                {r.estado !== 'confirmada' && (
-                  <button style={styles.btnConfirmar} onClick={() => handleEstado(r._id, 'confirmada')}>
-                    Confirmar
-                  </button>
-                )}
-                {r.estado !== 'cancelada' && (
-                  <><button style={styles.btnCancelar} onClick={() => handleEstado(r._id, 'cancelada')}>
-                    Cancelar
-                  </button><button style={styles.btnEliminar} onClick={() => handleEliminar(r._id)}>
-                      Eliminar
-                    </button></>
-                )}
-              </div>
+<div style={styles.acciones}>
+  {r.estado !== 'confirmada' && (
+    <button style={styles.btnConfirmar} onClick={() => handleEstado(r._id, 'confirmada')}>
+      Confirmar
+    </button>
+  )}
+  {r.estado !== 'cancelada' && (
+    <button style={styles.btnCancelar} onClick={() => handleEstado(r._id, 'cancelada')}>
+      Cancelar
+    </button>
+  )}
+  <button style={styles.btnEliminar} onClick={() => handleEliminar(r._id)}>
+    Eliminar
+  </button>
+</div>
             </div>
           ))
         )}
