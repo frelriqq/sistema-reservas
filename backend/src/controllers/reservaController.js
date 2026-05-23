@@ -45,6 +45,16 @@ const cancelarReserva = async (req, res) => {
   }
 };
 
+const eliminarReserva = async (req, res) => {
+  try {
+    const reserva = await Reserva.findByIdAndDelete(req.params.id);
+    if (!reserva) return res.status(404).json({ mensaje: 'Reserva no encontrada' });
+    res.json({ mensaje: 'Reserva eliminada correctamente' });
+  } catch (err) {
+    res.status(500).json({ mensaje: 'Error en el servidor', error: err.message });
+  }
+};
+
 const todasLasReservas = async (req, res) => {
   try {
     const reservas = await Reserva.find().populate('usuario', 'nombre correo').sort({ fecha: 1 });
@@ -92,4 +102,4 @@ const verificarDisponibilidad = async (req, res) => {
   }
 };
 
-module.exports = { crearReserva, misReservas, cancelarReserva, todasLasReservas, cambiarEstado, verificarDisponibilidad };
+module.exports = { crearReserva, misReservas, cancelarReserva, todasLasReservas, cambiarEstado, verificarDisponibilidad, eliminarReserva };
