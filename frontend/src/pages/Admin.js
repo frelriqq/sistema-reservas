@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { todasLasReservas, cambiarEstado } from '../services/api';
+import { todasLasReservas, cambiarEstado, eliminarReserva } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -30,6 +30,16 @@ const Admin = () => {
       console.error(err);
     }
   };
+
+const handleEliminar = async (id) => {
+  if (!window.confirm('¿Estás seguro de eliminar esta reserva permanentemente?')) return;
+  try {
+    await eliminarReserva(id);
+    cargarReservas();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const handleSalir = () => {
     cerrarSesion();
@@ -113,6 +123,9 @@ const Admin = () => {
                   <button style={styles.btnCancelar} onClick={() => handleEstado(r._id, 'cancelada')}>
                     Cancelar
                   </button>
+                  <button style={styles.btnEliminar} onClick={() => handleEliminar(r._id)}>
+  Eliminar
+</button>
                 )}
               </div>
             </div>
