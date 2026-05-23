@@ -142,6 +142,7 @@ const styles = {
   titulo: { margin: 0, fontSize: '1.5rem' },
   bienvenida: { marginRight: '1rem' },
   btnSalir: { background: 'transparent', border: '1px solid white', color: 'white', padding: '0.4rem 1rem', borderRadius: '6px', cursor: 'pointer' },
+  btnEliminar: { background: '#6b7280', color: 'white', border: 'none', padding: '0.5rem 1rem', borderRadius: '6px', cursor: 'pointer' }
   content: { padding: '2rem' },
   filtros: { display: 'flex', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' },
   btnFiltro: { padding: '0.5rem 1.2rem', borderRadius: '20px', border: '1px solid #1a4a8a', background: 'white', color: '#1a4a8a', cursor: 'pointer' },
